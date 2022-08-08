@@ -36,6 +36,9 @@ pub fn execute(
 const FIRST_KEY: [u8; 4] = [0, 0, 0, 0];
 
 fn handle_enqueue(deps: DepsMut, value: i32) -> StdResult<Response> {
+    if value < 10 {
+        panic!();
+    }
     enqueue(deps.storage, value)?;
     Ok(Response::default())
 }
@@ -103,6 +106,9 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<QueryResponse> {
 
 fn query_count(deps: Deps) -> CountResponse {
     let count = deps.storage.range(None, None, Order::Ascending).count() as u32;
+    if count < 10 {
+        panic!();
+    }
     CountResponse { count }
 }
 
